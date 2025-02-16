@@ -1,0 +1,44 @@
+.sidebar {
+    width: 200px;
+    height: 100vh;
+    background-color: #F8FAFC;
+    color: rgb(0, 0, 0);
+    position: fixed;
+    left: 0;
+    top: 0;
+    padding: 20px;
+}
+
+.sidebar h2 {
+    text-align: center;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin: 0px ;
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+    font-size: 18px;
+    display: block;
+    padding: 10px;
+}
+
+.sidebar ul li a:hover {
+    background-color: #BCCCDC;
+    border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+      width: 30%; /* Ocupa a largura total */
+      padding: 10px; /* Reduz o padding para economizar espaço */
+    }
+  }
+  
