@@ -18,6 +18,12 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  
+}
+
+.controls button {
+  background-color: #1230AE ;
+  color: #FFF7F7
 }
 
 .carrinho-total {

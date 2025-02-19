@@ -9,6 +9,9 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    font-family: Arial, sans-serif; /* Altera para Arial */
+    font-size: 20px;
+
   }
   
   .search-bar {
@@ -80,6 +83,7 @@
     flex-direction: column;
     height: 390px;
     overflow: hidden;
+    
   }
   
   .cart h2 {

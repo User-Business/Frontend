@@ -7,6 +7,9 @@
   text-align: center;
   width: 100%; /* Ocupa toda a largura do grid */
   transition: transform 0.3s ease, box-shadow 0.3s ease; /* Animação suave */
+  font-family: Arial, sans-serif; /* Altera para Arial */
+  font-size: 20px;
+
 }
 
 .produto-card:hover {
@@ -98,10 +101,10 @@
 }
 
 .modal-botoes button[type="submit"] {
-  background-color: #646cff;
+  background-color: #00ff73;
   color: white;
 }
 
 .modal-botoes button[type="submit"]:hover {
-  background-color: #535bf2;
+  background-color: #d6001d;
 }

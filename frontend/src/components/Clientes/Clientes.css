@@ -71,7 +71,7 @@
   }
   
   .cliente-acoes button:first-child {
-    background-color: #646cff; /* Azul para "Editar" */
+    background-color: #1230AE; /* Azul para "Editar" */
     color: white;
   }
   
@@ -81,7 +81,7 @@
   }
   
   .cliente-acoes button:first-child:hover {
-    background-color: #535bf2; /* Azul mais escuro no hover */
+    background-color: #0B2F9F /* Azul mais escuro no hover */
   }
   
   .cliente-acoes button:last-child:hover {

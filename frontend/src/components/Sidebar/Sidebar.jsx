@@ -1,4 +1,4 @@
-import React from "react"; //Importamos o react para usar o JSX
+import React from "react";
 import { Link } from "react-router-dom";
 import { GoHome } from "react-icons/go";
 import { MdOutlineSell } from "react-icons/md";
@@ -10,14 +10,38 @@ import { AiOutlineTeam } from "react-icons/ai";
 const Sidebar = () => {
     return (
         <div className="sidebar">
-            <h2>Osorio Systems</h2>
+            <h2>Osorio&SystemS</h2>
             <ul>
-                <li><Link to="/calendario"><GoHome /> Página Inicial</Link></li>
-                <li><Link to="/caixa"><MdOutlineSell /> Caixa</Link></li>
-                <li><Link to="/catalogo"><GrCatalogOption /> Catálogo</Link></li>
-                <li><Link to="/lista"><CiBoxes/> Estoque</Link></li>
-                <li><Link to="/clientes"><IoPersonAddOutline/> Clientes</Link></li>
-                <li><Link to="/funcionarios"><AiOutlineTeam /> Funcionários</Link></li>
+                <li>
+                    <Link to="/calendario">
+                        <GoHome /> Calendário
+                    </Link>
+                </li>
+                <li>
+                    <Link to="/caixa">
+                        <MdOutlineSell /> Caixa
+                    </Link>
+                </li>
+                <li>
+                    <Link to="/catalogo">
+                        <GrCatalogOption /> Catálogo
+                    </Link>
+                </li>
+                <li>
+                    <Link to="/lista">
+                        <CiBoxes /> Lista
+                    </Link>
+                </li>
+                <li>
+                    <Link to="/clientes">
+                        <IoPersonAddOutline /> Clientes
+                    </Link>
+                </li>
+                <li>
+                    <Link to="/funcionarios">
+                        <AiOutlineTeam /> Funcionários
+                    </Link>
+                </li>
             </ul>
         </div>
     );

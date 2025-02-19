@@ -55,12 +55,12 @@
 }
 
 .modal-botoes button[type="submit"] {
-  background-color: #646cff;
+  background-color: #ff6464;
   color: white;
 }
 
 .modal-botoes button[type="submit"]:hover {
-  background-color: #535bf2;
+  background-color: #ff0000;
 }
 
 /* Estilo da Foto do Produto */
