@@ -1,0 +1,179 @@
+/* src/components/Calendar/Calendar.css */
+
+.calendar {
+  width: 98%;
+  height: auto;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  font-family: Arial, sans-serif; /* Altera para Arial */
+
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  
+}
+
+.calendar-header button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+  
+}
+
+.day-name {
+  font-weight: bold;
+  color: #333;
+  font-size: 16px;
+  
+}
+
+.day, .empty {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-left: 80px;
+}
+
+.day:hover {
+  background-color: #ddd;
+}
+
+.day.marked {
+  background-color: #1230AE;
+  color: white;
+}
+
+.cliente-container {
+  margin-top: 30px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cliente-container h3 {
+  margin-bottom: 20px;
+  font-size: 1.5em;
+  color: #333;
+}
+
+.cliente-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.cliente-container .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.cliente-container input,
+.cliente-container select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.cliente-container button {
+  padding: 10px 20px;
+  background-color: #0084ff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.cliente-container button:hover {
+  background-color: #1230AE;
+}
+
+.cliente-container ul {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+.cliente-container li {
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.cliente-container .acoes button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-left: 10px;
+}
+
+.cliente-container .acoes button:first-child {
+  background-color: #ffeb3b;
+  color: #333;
+}
+
+.cliente-container .acoes button:last-child {
+  background-color: #ff4d4d;
+  color: white;
+}
+/* src/components/Calendar/Calendar.css */
+
+.cliente-container-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.cliente-container .close-button {
+  background-color: #ff0000;
+  color: white;
+  border: none;
+  border-radius: 10%;
+  width: 30px;
+  height: 30px;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+}
+
+.cliente-container .close-button:hover {
+  background-color: #e53935;
+}
