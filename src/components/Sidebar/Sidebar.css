@@ -1,0 +1,53 @@
+/* Aplica a fonte Arial à sidebar */
+.sidebar {
+    width: 200px;
+    height: 100vh;
+    background-color: #F7B5CA;
+    color: #e030c3;
+    position: fixed;
+    left: 0;
+    top: 0;
+    padding: 20px;
+    font-family: Arial, sans-serif; /* Altera para Arial */
+}
+
+.sidebar h2 {
+    text-align: center;
+    font-size: 24px; /* Ajusta o tamanho do título */
+    font-weight: bold; /* Deixa o título em negrito */
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin: 10px 0; /* Espaçamento entre os itens */
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    color: black;
+    font-size: 20px;
+    display: flex; /* Usa flexbox para alinhar ícones e texto */
+    align-items: center; /* Centraliza verticalmente ícones e texto */
+    gap: 10px; /* Espaço entre o ícone e o texto */
+    padding: 10px;
+    border-radius: 8px; /* Bordas arredondadas */
+}
+
+.sidebar ul li a:hover {
+    background-color: #1230AE;
+    color: white; /* Altera a cor do texto ao passar o mouse */
+    border-radius: 8px;
+}
+
+
+@media (max-width: 768px) {
+    .sidebar {
+      width: 30%; /* Ocupa a largura total */
+      padding: 10px; /* Reduz o padding para economizar espaço */
+    }
+  }
+  
