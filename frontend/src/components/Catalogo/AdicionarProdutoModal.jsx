@@ -3,18 +3,35 @@ import "../Catalogo/Catalogo.css";
 
 const AdicionarProdutoModal = ({ isOpen, onClose, onAdicionarProduto }) => {
   const [nome, setNome] = useState("");
-  const [foto, setFoto] = useState("");
   const [quantidade, setQuantidade] = useState("");
   const [local, setLocal] = useState("");
+  const [preco, setPreco] = useState("");
+  const [imagem, setImagem] = useState(null); // Estado para armazenar a imagem selecionada
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const novoProduto = { nome, foto, quantidade: parseInt(quantidade), local };
-    onAdicionarProduto(novoProduto);
+
+    // Cria o objeto FormData para enviar os dados
+    const formData = new FormData();
+    formData.append("nome_produto", nome);
+    formData.append("quantidade", quantidade);
+    formData.append("loja_produto", local);
+    formData.append("preco", preco);
+
+    // Adiciona a imagem ao FormData, se houver
+    if (imagem) {
+      formData.append("imagem", imagem);
+    }
+
+    // Envia os dados para o backend
+    onAdicionarProduto(formData);
+
+    // Limpa os campos do formulário
     setNome("");
-    setFoto("");
     setQuantidade("");
     setLocal("");
+    setPreco("");
+    setImagem(null);
   };
 
   if (!isOpen) return null;
@@ -24,6 +41,7 @@ const AdicionarProdutoModal = ({ isOpen, onClose, onAdicionarProduto }) => {
       <div className="modal-container">
         <h2>Adicionar Produto</h2>
         <form onSubmit={handleSubmit}>
+          {/* Campo para o nome */}
           <div className="form-group">
             <label>Nome do Produto:</label>
             <input
@@ -33,15 +51,8 @@ const AdicionarProdutoModal = ({ isOpen, onClose, onAdicionarProduto }) => {
               required
             />
           </div>
-          <div className="form-group">
-            <label>URL da Foto:</label>
-            <input
-              type="text"
-              value={foto}
-              onChange={(e) => setFoto(e.target.value)}
-              required
-            />
-          </div>
+
+          {/* Campo para a quantidade */}
           <div className="form-group">
             <label>Quantidade:</label>
             <input
@@ -51,6 +62,8 @@ const AdicionarProdutoModal = ({ isOpen, onClose, onAdicionarProduto }) => {
               required
             />
           </div>
+
+          {/* Campo para o local */}
           <div className="form-group">
             <label>Local:</label>
             <input
@@ -60,6 +73,30 @@ const AdicionarProdutoModal = ({ isOpen, onClose, onAdicionarProduto }) => {
               required
             />
           </div>
+
+          {/* Campo para o preço */}
+          <div className="form-group">
+            <label>Preço:</label>
+            <input
+              type="number"
+              step="0.01"
+              value={preco}
+              onChange={(e) => setPreco(e.target.value)}
+              required
+            />
+          </div>
+
+          {/* Campo para a imagem */}
+          <div className="form-group">
+            <label>Imagem:</label>
+            <input
+              type="file"
+              accept="image/*" // Aceita apenas arquivos de imagem
+              onChange={(e) => setImagem(e.target.files[0])} // Armazena o arquivo selecionado
+            />
+          </div>
+
+          {/* Botões de Cancelar e Adicionar */}
           <div className="modal-botoes">
             <button type="button" onClick={onClose}>
               Cancelar

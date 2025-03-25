@@ -29,7 +29,7 @@ const Sidebar = () => {
                 </li>
                 <li>
                     <Link to="/lista">
-                        <CiBoxes /> Lista
+                        <CiBoxes /> Reposição
                     </Link>
                 </li>
                 <li>

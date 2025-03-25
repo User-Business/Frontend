@@ -1,32 +1,129 @@
+/* Estilo do Container Principal */
 .catalogo-container {
-  padding: 30px; /* Aumentei o espaçamento interno */
-  width: 1500px; /* Aumentei a largura máxima */
-  margin: 0 auto; /* Centraliza o container na página */
-  background-color: #f9f9f9; /* Cor de fundo para o container */
-  border-radius: 12px; /* Bordas mais arredondadas */
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* Sombra mais suave e profunda */
-  overflow-y: auto; /* Adiciona barra de rolagem vertical */
-  max-height: 95vh; /* Aumentei a altura máxima */
+  padding: 30px;
+  width: 90%;
+  max-width: 1500px;
+  margin: 0 auto;
+  text-align: center;
 }
 
+/* Botão de Adicionar Produto */
 .adicionar-produto-btn {
-  background-color: #1230AE;
+  background-color: #00ff73;
   color: white;
+  padding: 10px 20px;
   border: none;
-  padding: 15px 25px; /* Botão maior */
-  border-radius: 8px;
+  border-radius: 4px;
   cursor: pointer;
-  margin-bottom: 30px; /* Mais espaço abaixo do botão */
-  width: 100%; /* Botão ocupa toda a largura do container */
-  font-size: 1.1em; /* Texto maior no botão */
+  font-size: 1.1em;
 }
 
 .adicionar-produto-btn:hover {
   background-color: #535bf2;
 }
 
+/* Lista de Produtos */
 .produtos-lista {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Layout responsivo */
-  gap: 30px; /* Espaçamento maior entre os produtos */
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  margin-top: 20px;
+}
+
+/* Estilo do Card de Produto */
+.produto-card {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.produto-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.produto-foto {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+.produto-card h3 {
+  font-size: 1.4em;
+  margin: 10px 0;
+  color: #333;
+}
+
+.produto-card p {
+  font-size: 1.1em;
+  color: #555;
+  margin: 5px 0;
+}
+
+/* Estilos do Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-container {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  max-width: 90%;
+}
+
+.modal-container h2 {
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.modal-botoes {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.modal-botoes button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.modal-botoes button[type="submit"] {
+  background-color: #00ff73;
+  color: white;
+}
+
+.modal-botoes button[type="submit"]:hover {
+  background-color: #d6001d;
 }

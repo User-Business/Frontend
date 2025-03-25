@@ -1,32 +1,24 @@
-// src/components/Lista/AdicionarProdutoModal.jsx
+// src/components/Reposicao/AdicionarProdutoModal.jsx
 import React, { useState } from "react";
-import "../Lista/Lista.css";
+import "../Reposicao/Reposicao.css";
 
 const AdicionarProdutoModal = ({ isOpen, onClose, onAdicionarProduto }) => {
   const [nome, setNome] = useState("");
   const [quantidade, setQuantidade] = useState("");
-  const [local, setLocal] = useState("");
+  const [local, setLocal] = useState("Vista Verde"); // Valor padrão
   const [preco, setPreco] = useState("");
   const [foto, setFoto] = useState("");
-  const [semFoto, setSemFoto] = useState(false); // Estado para indicar se o usuário não quer adicionar foto
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const novoProduto = {
-      id: Date.now(), // Gera um ID único baseado no timestamp
-      nome,
+      nome_produto: nome,
       quantidade: parseInt(quantidade),
-      local,
+      loja_produto: local,
       preco: parseFloat(preco),
-      foto: semFoto ? null : foto, // Se 'semFoto' for true, define 'foto' como null
+      image: foto || null, // Permite que a imagem seja opcional
     };
     onAdicionarProduto(novoProduto);
-    setNome("");
-    setQuantidade("");
-    setLocal("");
-    setPreco("");
-    setFoto("");
-    setSemFoto(false); // Reseta o estado do checkbox
     onClose();
   };
 
@@ -37,6 +29,7 @@ const AdicionarProdutoModal = ({ isOpen, onClose, onAdicionarProduto }) => {
       <div className="modal-container">
         <h2>Adicionar Produto</h2>
         <form onSubmit={handleSubmit}>
+          {/* Campos do formulário */}
           <div className="form-group">
             <label>Nome do Produto:</label>
             <input
@@ -57,12 +50,10 @@ const AdicionarProdutoModal = ({ isOpen, onClose, onAdicionarProduto }) => {
           </div>
           <div className="form-group">
             <label>Local:</label>
-            <input
-              type="text"
-              value={local}
-              onChange={(e) => setLocal(e.target.value)}
-              required
-            />
+            <select value={local} onChange={(e) => setLocal(e.target.value)}>
+              <option value="Vista Verde">Vista Verde</option>
+              <option value="Satélite">Satélite</option>
+            </select>
           </div>
           <div className="form-group">
             <label>Preço:</label>
@@ -80,18 +71,7 @@ const AdicionarProdutoModal = ({ isOpen, onClose, onAdicionarProduto }) => {
               type="text"
               value={foto}
               onChange={(e) => setFoto(e.target.value)}
-              disabled={semFoto} // Desativa o campo se 'semFoto' for true
             />
-          </div>
-          <div className="form-group">
-            <label>
-              <input
-                type="checkbox"
-                checked={semFoto}
-                onChange={(e) => setSemFoto(e.target.checked)}
-              />
-              Não adicionar foto
-            </label>
           </div>
           <div className="modal-botoes">
             <button type="button" onClick={onClose}>

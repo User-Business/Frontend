@@ -1,0 +1,37 @@
+.reposicao-container {
+  padding: 30px;
+  max-width: 1500px;
+  margin: 0 auto;
+}
+
+.view-toggle {
+  margin-bottom: 20px;
+}
+
+.view-toggle button {
+  margin-right: 10px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.comprar-btn {
+  background-color: #00ff73;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1.1em;
+}
+
+.comprar-btn:hover {
+  background-color: #535bf2;
+}
+
+.select-options {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}

@@ -1,52 +1,71 @@
+/* Estilo do Container Principal */
+.catalogo-container {
+  padding: 30px;
+  width: 90%;
+  max-width: 1500px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* Botão de Adicionar Produto */
+.adicionar-produto-btn {
+  background-color: #00ff73;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1.1em;
+}
+
+.adicionar-produto-btn:hover {
+  background-color: #535bf2;
+}
+
+/* Lista de Produtos */
+.produtos-lista {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  margin-top: 20px;
+}
+
 /* Estilo do Card de Produto */
 .produto-card {
   background-color: white;
-  border-radius: 12px; /* Bordas mais arredondadas */
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* Sombra mais suave */
-  padding: 20px; /* Mais espaçamento interno */
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  padding: 20px;
   text-align: center;
-  width: 100%; /* Ocupa toda a largura do grid */
-  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Animação suave */
-  font-family: Arial, sans-serif; /* Altera para Arial */
-  font-size: 20px;
-
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .produto-card:hover {
-  transform: translateY(-5px); /* Efeito de elevação ao passar o mouse */
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); /* Sombra mais profunda no hover */
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
 }
 
 .produto-foto {
-  width: 100%; /* Foto ocupa toda a largura do card */
-  height: 200px; /* Altura maior para a foto */
+  width: 100%;
+  height: 200px;
   object-fit: cover;
-  border-radius: 12px; /* Bordas mais arredondadas */
-  margin-bottom: 20px; /* Mais espaçamento abaixo da foto */
+  border-radius: 12px;
+  margin-bottom: 20px;
 }
 
-.produto-nome {
-  font-size: 1.4em; /* Título maior */
+.produto-card h3 {
+  font-size: 1.4em;
   margin: 10px 0;
-  color: #333; /* Cor mais escura para destacar */
+  color: #333;
 }
 
-.produto-info {
-  font-size: 1.1em; /* Texto maior */
+.produto-card p {
+  font-size: 1.1em;
   color: #555;
   margin: 5px 0;
 }
 
-.produto-preco {
-  background-color: #ffeb3b; /* Fundo amarelo */
-  padding: 10px 15px; /* Mais espaçamento interno */
-  border-radius: 8px; /* Bordas arredondadas */
-  font-size: 1.2em; /* Texto maior */
-  font-weight: bold;
-  color: #333;
-  margin-top: 15px; /* Mais espaçamento acima do preço */
-}
-/* Estilos do Modal (mantidos) */
+/* Estilos do Modal */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -61,7 +80,7 @@
 
 .modal-container {
   background-color: white;
-  padding: 20px;
+  padding: 30px;
   border-radius: 8px;
   width: 400px;
   max-width: 90%;
@@ -107,4 +126,9 @@
 
 .modal-botoes button[type="submit"]:hover {
   background-color: #d6001d;
+}
+
+.error {
+  color: red;
+  font-weight: bold;
 }

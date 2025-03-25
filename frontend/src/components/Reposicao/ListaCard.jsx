@@ -5,14 +5,14 @@ import "../Lista/Lista.css";
 const ListaCard = ({ produto, isCatalogView, isSelected, onToggleSelect }) => {
   return (
     <div className={`lista-card ${isCatalogView ? "catalog-view" : "list-view"}`}>
-      {isCatalogView && produto.foto && (
-        <img src={produto.foto} alt={produto.nome} className="produto-foto" />
+      {isCatalogView && produto.image && (
+        <img src={produto.image} alt={produto.nome_produto} className="produto-foto" />
       )}
       <div className="card-content">
-        <h3 className="produto-nome">{produto.nome}</h3>
+        <h3 className="produto-nome">{produto.nome_produto}</h3>
         <p className="produto-info">Quantidade: {produto.quantidade}</p>
-        <p className="produto-info">Local: {produto.local}</p>
-        <div className="produto-preco">R$ {produto.preco}</div>
+        <p className="produto-info">Local: {produto.loja_produto}</p>
+        <div className="produto-preco">R$ {produto.preco.toFixed(2)}</div>
       </div>
       <input
         type="checkbox"

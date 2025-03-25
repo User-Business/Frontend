@@ -1,45 +1,39 @@
 // src/pages/Lista/Lista.jsx
-import React, { useState } from "react";
-import ListaCard from "../../components/Lista/ListaCard";
-import AdicionarProdutoModal from "../../components/Lista/AdicionarProdutoModal";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import ListaCard from "../../components/Reposicao/ListaCard";
+import AdicionarProdutoModal from "../../components/Reposicao/AdicionarProdutoModal";
+import Reposicao from "../../components/Reposicao/Reposicao"
 import "../Lista/Lista.css";
 
+
 const Lista = () => {
-  const [produtos, setProdutos] = useState([
-    {
-      id: 1,
-      nome: "Escova Almofadada",
-      quantidade: 10,
-      local: "Prateleira A",
-      preco: 99.99,
-      foto: "https://embralumi.vteximg.com.br/arquivos/ids/167291-1000-1000/caoa2.jpg?v=637719791035630000",
-    },
-    {
-      id: 2,
-      nome: "Escova Oval",
-      quantidade: 5,
-      local: "Prateleira B",
-      preco: 149.99,
-      foto: "https://images.tcdn.com.br/img/img_prod/730726/escova_de_cabelo_almofadada_oval_salles_profissional_901_1_ab9206d83c85dd65aaf4450c89a1e2aa.jpeg",
-    },
-    {
-      id: 3,
-      nome: "Escova Profissional",
-      quantidade: 20,
-      local: "Prateleira C",
-      preco: 199.99,
-      foto: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9_Mxjsmp_AzJ2A1dHY3cO6HnjXnlpPDUgYA&s",
-    },
-  ]);
+  const [produtos, setProdutos] = useState([]); // Estado para armazenar os produtos vindos do backend
+  const [isCatalogView, setIsCatalogView] = useState(true); // Estado para alternar entre catálogo e lista
+  const [selectedProducts, setSelectedProducts] = useState([]); // Estado para armazenar os produtos selecionados
+  const [isModalOpen, setIsModalOpen] = useState(false); // Estado para controlar o modal
 
-  const [isCatalogView, setIsCatalogView] = useState(true);
-  const [selectedProducts, setSelectedProducts] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  // Função para buscar produtos do backend
+  const fetchProdutos = async () => {
+    try {
+      const response = await axios.get("/api/estoque");
+      setProdutos(response.data);
+    } catch (error) {
+      console.error("Erro ao buscar produtos:", error);
+    }
+  };
 
+  // Buscar produtos ao carregar o componente
+  useEffect(() => {
+    fetchProdutos();
+  }, []);
+
+  // Alternar entre visualização de catálogo e lista
   const toggleView = () => {
     setIsCatalogView(!isCatalogView);
   };
 
+  // Alternar a seleção de produtos
   const toggleSelect = (id) => {
     if (selectedProducts.includes(id)) {
       setSelectedProducts(selectedProducts.filter((productId) => productId !== id));
@@ -48,6 +42,7 @@ const Lista = () => {
     }
   };
 
+  // Calcular o total do carrinho
   const calculateTotal = () => {
     return produtos
       .filter((produto) => selectedProducts.includes(produto.id))
@@ -55,33 +50,52 @@ const Lista = () => {
       .toFixed(2);
   };
 
-  const handleAdicionarProduto = (novoProduto) => {
-    setProdutos([...produtos, novoProduto]);
+  // Função para adicionar um novo produto (atualiza a lista após adicionar)
+  const handleAdicionarProduto = async (novoProduto) => {
+    try {
+      await axios.post("/api/estoque", novoProduto);
+      fetchProdutos(); // Atualiza a lista de produtos após adicionar
+      setIsModalOpen(false); // Fecha o modal
+    } catch (error) {
+      console.error("Erro ao adicionar produto:", error);
+    }
   };
 
   return (
     <div className="lista-container">
       <h1>Lista de Produtos</h1>
       <div className="controls">
+        {/* Botão para alternar entre visualização de catálogo e lista */}
         <button onClick={toggleView}>
           {isCatalogView ? "Ver como Lista" : "Ver como Catálogo"}
         </button>
+
+        {/* Botão para abrir o modal de adicionar produto */}
         <button onClick={() => setIsModalOpen(true)}>Adicionar Produto</button>
+
+        {/* Exibição do total do carrinho */}
         <div className="carrinho-total">
           Carrinho Total: R$ {calculateTotal()}
         </div>
       </div>
+
+      {/* Lista de produtos */}
       <div className="produtos-lista">
-        {produtos.map((produto) => (
-          <ListaCard
-            key={produto.id}
-            produto={produto}
-            isCatalogView={isCatalogView}
-            isSelected={selectedProducts.includes(produto.id)}
-            onToggleSelect={toggleSelect}
-          />
-        ))}
+        {produtos.length > 0 ? (
+          produtos.map((produto) => (
+            <ListaCard
+              key={produto.id}
+              produto={produto}
+              isCatalogView={isCatalogView}
+              isSelected={selectedProducts.includes(produto.id)}
+              onToggleSelect={toggleSelect}
+            />
+          ))
+        ) : (
+          <p>Nenhum produto disponível.</p>
+        )}
       </div>
+
       {/* Modal para adicionar produto */}
       <AdicionarProdutoModal
         isOpen={isModalOpen}

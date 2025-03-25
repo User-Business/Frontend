@@ -1,5 +1,6 @@
 // src/components/Calendar/Calendar.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "../Calendar/Calendar.css";
 
 const Calendar = () => {
@@ -7,7 +8,7 @@ const Calendar = () => {
   const [selectedDay, setSelectedDay] = useState(null);
   const [clientesMarcados, setClientesMarcados] = useState({});
   const [editandoCliente, setEditandoCliente] = useState(null);
-  const [isClienteContainerVisible, setIsClienteContainerVisible] = useState(false); // Novo estado
+  const [isClienteContainerVisible, setIsClienteContainerVisible] = useState(false);
 
   // Obtém o ano e o mês atual
   const year = currentDate.getFullYear();
@@ -33,39 +34,83 @@ const Calendar = () => {
     return `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
   };
 
+  // Função para buscar agendamentos do backend
+  const fetchAgendamentos = async () => {
+    try {
+      const response = await axios.get("/api/agenda");
+      const agendamentos = response.data;
+      const marcados = {};
+      agendamentos.forEach((agendamento) => {
+        const dateKey = agendamento.data;
+        if (!marcados[dateKey]) {
+          marcados[dateKey] = [];
+        }
+        marcados[dateKey].push({
+          id: agendamento.id,
+          nome: agendamento.cliente,
+          horario: agendamento.horario,
+          cabeleireiro: agendamento.cabeleireiro,
+          servico: agendamento.servico,
+          observacoes: agendamento.observacoes,
+        });
+      });
+      setClientesMarcados(marcados);
+    } catch (error) {
+      console.error("Erro ao buscar agendamentos:", error);
+    }
+  };
+
+  // Efeito para buscar agendamentos ao carregar o componente ou mudar de mês
+  useEffect(() => {
+    fetchAgendamentos();
+  }, [currentDate]);
+
   // Função para adicionar/editar cliente
-  const handleCliente = (e) => {
+  const handleCliente = async (e) => {
     e.preventDefault();
     const nome = e.target.nome.value;
     const horario = e.target.horario.value;
     const cabeleireiro = e.target.cabeleireiro.value;
+    const servico = e.target.servico.value; // Novo campo
+    const observacoes = e.target.observacoes.value; // Novo campo
     const dateKey = formatDate(selectedDay);
 
-    if (!clientesMarcados[dateKey]) {
-      clientesMarcados[dateKey] = [];
-    }
+    try {
+      const agendamento = {
+        data: dateKey,
+        horario,
+        cliente: nome,
+        cabeleireiro,
+        servico,
+        observacoes,
+        status: "agendado",
+      };
 
-    if (editandoCliente) {
-      // Editar cliente existente
-      const index = clientesMarcados[dateKey].findIndex((c) => c.id === editandoCliente.id);
-      clientesMarcados[dateKey][index] = { id: editandoCliente.id, nome, horario, cabeleireiro };
-    } else {
-      // Adicionar novo cliente
-      const novoCliente = { id: Date.now(), nome, horario, cabeleireiro };
-      clientesMarcados[dateKey].push(novoCliente);
-    }
+      if (editandoCliente) {
+        // Atualizar cliente existente
+        await axios.put(`/api/agenda/${editandoCliente.id}`, agendamento);
+      } else {
+        // Criar novo cliente
+        await axios.post("/api/agenda", agendamento);
+      }
 
-    setClientesMarcados({ ...clientesMarcados });
-    setEditandoCliente(null); // Limpa o estado de edição
-    e.target.reset(); // Limpa o formulário
+      // Atualizar lista de agendamentos
+      fetchAgendamentos();
+      setEditandoCliente(null);
+      e.target.reset();
+    } catch (error) {
+      console.error("Erro ao salvar agendamento:", error);
+    }
   };
 
   // Função para excluir cliente
-  const excluirCliente = (id) => {
-    const dateKey = formatDate(selectedDay);
-    const clientesAtualizados = clientesMarcados[dateKey].filter((c) => c.id !== id);
-    clientesMarcados[dateKey] = clientesAtualizados;
-    setClientesMarcados({ ...clientesMarcados });
+  const excluirCliente = async (id) => {
+    try {
+      await axios.delete(`/api/agenda/${id}`);
+      fetchAgendamentos();
+    } catch (error) {
+      console.error("Erro ao excluir agendamento:", error);
+    }
   };
 
   // Criar os dias do calendário
@@ -83,7 +128,7 @@ const Calendar = () => {
         className={`day ${hasClients ? "marked" : ""}`}
         onClick={() => {
           setSelectedDay(i);
-          setIsClienteContainerVisible(true); // Mostra o container ao clicar no dia
+          setIsClienteContainerVisible(true);
         }}
       >
         {i}
@@ -116,7 +161,7 @@ const Calendar = () => {
             <h3>Agendar Cliente para o Dia {selectedDay}</h3>
             <button
               className="close-button"
-              onClick={() => setIsClienteContainerVisible(false)} // Fecha o container
+              onClick={() => setIsClienteContainerVisible(false)}
             >
               X
             </button>
@@ -149,6 +194,26 @@ const Calendar = () => {
                 <option value="Carlos">Carlos</option>
               </select>
             </div>
+            {/* Novo campo: Serviço */}
+            <div className="form-group">
+              <label>Serviço:</label>
+              <select name="servico" defaultValue={editandoCliente?.servico || ""} required>
+                <option value="">Selecione um serviço</option>
+                <option value="Corte de Cabelo">Corte de Cabelo</option>
+                <option value="Manicure">Manicure</option>
+                <option value="Pedicure">Pedicure</option>
+                <option value="Maquiagem">Maquiagem</option>
+              </select>
+            </div>
+            {/* Novo campo: Observações */}
+            <div className="form-group">
+              <label>Observações:</label>
+              <textarea
+                name="observacoes"
+                defaultValue={editandoCliente?.observacoes || ""}
+                rows="3"
+              ></textarea>
+            </div>
             <button type="submit">{editandoCliente ? "Salvar Alterações" : "Adicionar Cliente"}</button>
           </form>
 
@@ -157,6 +222,11 @@ const Calendar = () => {
             {clientesMarcados[formatDate(selectedDay)]?.map((cliente) => (
               <li key={cliente.id}>
                 <strong>{cliente.nome}</strong> - {cliente.horario} ({cliente.cabeleireiro})
+                <div>
+                  <span>Serviço: {cliente.servico}</span>
+                  <br />
+                  <span>Obs: {cliente.observacoes || "Nenhuma observação"}</span>
+                </div>
                 <div className="acoes">
                   <button onClick={() => setEditandoCliente(cliente)}>Editar</button>
                   <button onClick={() => excluirCliente(cliente.id)}>Excluir</button>

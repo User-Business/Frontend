@@ -1,24 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "./Caixa.css";
 
-const mockProducts = [
-  { id: 1, name: "Shampoo Profissional", store: "Loja A", quantity: 10, price: 29.99 },
-  { id: 2, name: "Condicionador Premium", store: "Loja B", quantity: 5, price: 34.50 },
-  { id: 3, name: "Máscara Capilar", store: "Loja A", quantity: 8, price: 45.00 },
-  { id: 4, name: "Óleo de Argan", store: "Loja C", quantity: 12, price: 59.90 },
-  { id: 5, name: "Spray Fixador", store: "Loja A", quantity: 15, price: 25.99 },
-  { id: 6, name: "Creme de Pentear", store: "Loja B", quantity: 7, price: 19.99 },
-  { id: 7, name: "Gel Modelador", store: "Loja C", quantity: 9, price: 22.50 },
-  { id: 8, name: "Escova Térmica", store: "Loja A", quantity: 3, price: 79.90 }
-];
-
-const CaixaParaVendas = () => {
+const Caixa = () => {
   const [search, setSearch] = useState("");
   const [cart, setCart] = useState([]);
+  const [produtos, setProdutos] = useState([]);
 
-  const filteredProducts = mockProducts.filter((product) =>
-    product.name.toLowerCase().includes(search.toLowerCase())
+  // Função para buscar produtos do backend
+  const fetchProdutos = async () => {
+    try {
+      const response = await axios.get("/api/estoque");
+      setProdutos(response.data);
+    } catch (error) {
+      console.error("Erro ao buscar produtos:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchProdutos();
+  }, []);
+
+  const filteredProducts = produtos.filter((product) =>
+    product.nome_produto.toLowerCase().includes(search.toLowerCase())
   );
+
+  // Função para formatar o preço corretamente
+  const formatPreco = (preco) => {
+    const precoFloat = parseFloat(preco); // Converte para número, se possível
+    return isNaN(precoFloat) ? "0.00" : precoFloat.toFixed(2);
+  };
 
   const addToCart = (product) => {
     setCart((prevCart) => {
@@ -26,11 +37,11 @@ const CaixaParaVendas = () => {
       if (existingProduct) {
         return prevCart.map((item) =>
           item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
+            ? { ...item, quantidade: item.quantidade + 1 }
             : item
         );
       }
-      return [...prevCart, { ...product, quantity: 1 }];
+      return [...prevCart, { ...product, quantidade: 1 }];
     });
   };
 
@@ -38,13 +49,16 @@ const CaixaParaVendas = () => {
     setCart((prevCart) => prevCart.filter((item) => item.id !== productId));
   };
 
-  const totalAmount = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  // Cálculo do total com segurança para evitar erros de tipo
+  const totalAmount = cart.reduce(
+    (sum, item) => sum + (parseFloat(item.preco) || 0) * item.quantidade,
+    0
+  );
 
   return (
     <div className="caixa-vendas-container">
       <h2>Caixa de Vendas</h2>
 
-      {/* Barra de pesquisa */}
       <input
         type="text"
         placeholder="Buscar produto..."
@@ -53,7 +67,6 @@ const CaixaParaVendas = () => {
         className="search-bar"
       />
 
-      {/* Área dos produtos com rolagem */}
       <div className="product-section">
         <div className="table-container">
           <table className="product-table">
@@ -69,12 +82,15 @@ const CaixaParaVendas = () => {
             <tbody>
               {filteredProducts.map((product) => (
                 <tr key={product.id}>
-                  <td>{product.name}</td>
-                  <td>{product.store}</td>
-                  <td>{product.quantity}</td>
-                  <td>R$ {product.price.toFixed(2)}</td>
+                  <td>{product.nome_produto}</td>
+                  <td>{product.loja_produto}</td>
+                  <td>{product.quantidade}</td>
+                  <td>R$ {formatPreco(product.preco)}</td>
                   <td>
-                    <button className="add-button" onClick={() => addToCart(product)}>
+                    <button
+                      className="add-button"
+                      onClick={() => addToCart(product)}
+                    >
                       Adicionar
                     </button>
                   </td>
@@ -85,10 +101,8 @@ const CaixaParaVendas = () => {
         </div>
       </div>
 
-      {/* Separação visual */}
       <hr className="separator" />
 
-      {/* Carrinho */}
       <div className="cart">
         <h2>Carrinho</h2>
         {cart.length === 0 ? (
@@ -107,11 +121,14 @@ const CaixaParaVendas = () => {
               <tbody>
                 {cart.map((item) => (
                   <tr key={item.id}>
-                    <td>{item.name}</td>
-                    <td>{item.quantity}x</td>
-                    <td>R$ {(item.quantity * item.price).toFixed(2)}</td>
+                    <td>{item.nome_produto}</td>
+                    <td>{item.quantidade}x</td>
+                    <td>R$ {(item.quantidade * (parseFloat(item.preco) || 0)).toFixed(2)}</td>
                     <td>
-                      <button className="remove-button" onClick={() => removeFromCart(item.id)}>
+                      <button
+                        className="remove-button"
+                        onClick={() => removeFromCart(item.id)}
+                      >
                         Remover
                       </button>
                     </td>
@@ -127,4 +144,4 @@ const CaixaParaVendas = () => {
   );
 };
 
-export default CaixaParaVendas;
+export default Caixa;

@@ -2,8 +2,8 @@
 .sidebar {
     width: 200px;
     height: 100vh;
-    background-color: #F7B5CA;
-    color: #e030c3;
+    background-color: #ebeef4;
+    color: #4d4d4d;
     position: fixed;
     left: 0;
     top: 0;
@@ -29,7 +29,7 @@
 .sidebar ul li a {
     text-decoration: none;
     color: black;
-    font-size: 20px;
+    font-size: 15px;
     display: flex; /* Usa flexbox para alinhar ícones e texto */
     align-items: center; /* Centraliza verticalmente ícones e texto */
     gap: 10px; /* Espaço entre o ícone e o texto */
