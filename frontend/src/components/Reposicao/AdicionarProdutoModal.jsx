@@ -1,5 +1,5 @@
-// src/components/Reposicao/AdicionarProdutoModal.jsx
 import React, { useState } from "react";
+import axios from "axios";
 import "../Reposicao/Reposicao.css";
 
 const AdicionarProdutoModal = ({ isOpen, onClose, onAdicionarProduto }) => {
@@ -9,8 +9,9 @@ const AdicionarProdutoModal = ({ isOpen, onClose, onAdicionarProduto }) => {
   const [preco, setPreco] = useState("");
   const [foto, setFoto] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     const novoProduto = {
       nome_produto: nome,
       quantidade: parseInt(quantidade),
@@ -18,8 +19,14 @@ const AdicionarProdutoModal = ({ isOpen, onClose, onAdicionarProduto }) => {
       preco: parseFloat(preco),
       image: foto || null, // Permite que a imagem seja opcional
     };
-    onAdicionarProduto(novoProduto);
-    onClose();
+
+    try {
+      await axios.post("/api/estoque", novoProduto);
+      onAdicionarProduto(); // Atualiza a lista de produtos
+      onClose(); // Fecha o modal
+    } catch (error) {
+      console.error("Erro ao adicionar produto:", error);
+    }
   };
 
   if (!isOpen) return null;

@@ -1,7 +1,6 @@
-// src/pages/Reposicao/Reposicao.jsx
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import AdicionarProdutoModal from "./ListaCard";
+import AdicionarProdutoModal from "./AdicionarProdutoModal";
 import ListaCard from "./ListaCard";
 import "../Reposicao/Reposicao.css";
 
@@ -55,7 +54,6 @@ const Reposicao = () => {
 
       for (const produto of produtosComprados) {
         const produtoExistente = produtos.find((p) => p.id === produto.id);
-
         if (produtoExistente) {
           // Atualiza a quantidade do produto existente
           await axios.put(`/api/estoque/${produto.id}`, {
